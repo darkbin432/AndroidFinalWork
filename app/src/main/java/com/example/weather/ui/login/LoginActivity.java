@@ -31,8 +31,11 @@ import com.example.weather.DatabaseHelper;
 import com.example.weather.MainActivity;
 import com.example.weather.R;
 import com.example.weather.data.LoginDataSource;
+import com.example.weather.db.User;
 import com.example.weather.ui.login.LoginViewModel;
 import com.example.weather.ui.login.LoginViewModelFactory;
+
+import org.litepal.LitePal;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -45,34 +48,18 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
 
-//        System.out.println("123");
-//        DatabaseHelper databaseHelper = new DatabaseHelper(LoginActivity.this, "test.db", null, 1);
-        System.out.println("456");
-        SQLiteDatabase db = openOrCreateDatabase("test.db", Context.MODE_PRIVATE, null);
-        System.out.println("789");
+        LitePal.initialize(this);
 
-        db.execSQL("DROP table if exists user");
-        db.execSQL("create table user ("
-                + "id integer primary key autoincrement,"
-                + "username varchar(50) not null,"
-                + "password varchar(50) not null,"
-                + "name varchar(100) not null,"
-                + "phone varchar(30) not null"
-                + ");");
+        System.out.println("add");
+        User admin = new User();
+        admin.setId(1);
+        admin.setUsername("admin");
+        admin.setPassword("123456");
+        admin.setName("lwb");
+        admin.setPhone("17376595431");
+        admin.save();
 
-        ContentValues values = new ContentValues();
-        values.put("id",1);
-        values.put("username","admin");
-        values.put("password","123456");
-        values.put("name","罗伟斌");
-        values.put("phone", "17376595431");
-        db.insert("user", null, values);
-
-        db.close();
-//        //创建游标对象
-//        Cursor cursor = db.query("user", new String[]{"id", "username", "name", "phone"}, "username = ? and password = ?", new String[]{"admin", "123456"}, null, null, "1,1");
-//        System.out.println("user" + cursor.getString(cursor.getColumnIndex("username")));
-
+        System.out.println("save");
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);

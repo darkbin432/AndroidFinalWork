@@ -1,5 +1,7 @@
 package com.example.weather.data.model;
 
+import com.example.weather.db.User;
+
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
  */
@@ -11,12 +13,12 @@ public class LoggedInUser {
     private String name;
     private String phone;
 
-    public LoggedInUser(Integer id, String username, String password, String name, String phone) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.phone = phone;
+    public LoggedInUser(User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.password = user.getPassword();
+        this.name = user.getName();
+        this.phone = user.getPhone();
     }
 
     public Integer getId() {
