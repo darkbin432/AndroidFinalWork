@@ -34,7 +34,6 @@ public class WeatherFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-
         tabLayout = root.findViewById(R.id.tablayout);
         viewPager = root.findViewById(R.id.viewpager);
 
@@ -48,7 +47,7 @@ public class WeatherFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText(titles.get(0)));
         tabLayout.addTab(tabLayout.newTab().setText(titles.get(1)));
 
-        viewPager.setAdapter(new FragmentPagerAdapter(getFragmentManager()){
+        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()){
 
             //获取每个页卡
             @Override

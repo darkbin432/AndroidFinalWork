@@ -12,6 +12,7 @@ public class LoggedInUser {
     private String password;
     private String name;
     private String phone;
+    private String autoLogin = "0";
 
     public LoggedInUser(User user) {
         this.id = user.getId();
@@ -19,6 +20,7 @@ public class LoggedInUser {
         this.password = user.getPassword();
         this.name = user.getName();
         this.phone = user.getPhone();
+        this.autoLogin = user.getAutoLogin();
     }
 
     public Integer getId() {
@@ -59,5 +61,13 @@ public class LoggedInUser {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAutoLogin() {
+        return autoLogin;
+    }
+
+    public void setAutoLogin(String autoLogin) {
+        this.autoLogin = autoLogin;
     }
 }

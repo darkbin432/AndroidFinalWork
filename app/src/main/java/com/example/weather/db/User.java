@@ -8,6 +8,7 @@ public class User extends DataSupport {
     private String password;
     private String name;
     private String phone;
+    private String autoLogin = "0";
 
     public Integer getId() {
         return id;
@@ -47,5 +48,13 @@ public class User extends DataSupport {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getAutoLogin() {
+        return autoLogin;
+    }
+
+    public void setAutoLogin(String autoLogin) {
+        this.autoLogin = autoLogin;
     }
 }

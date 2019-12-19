@@ -5,11 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -36,6 +32,9 @@ import com.example.weather.ui.login.LoginViewModel;
 import com.example.weather.ui.login.LoginViewModelFactory;
 
 import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -50,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
 
         LitePal.initialize(this);
 
+
         System.out.println("add");
         User admin = new User();
         admin.setId(1);
@@ -57,9 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         admin.setPassword("123456");
         admin.setName("lwb");
         admin.setPhone("17376595431");
+        admin.setAutoLogin("0");
         admin.save();
 
-        System.out.println("save");
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
@@ -136,16 +136,30 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
+
                 if (loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString())){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        passwordEditText.getText().toString())) {
+                    Intent intent = new Intent();
+                    intent.putExtra("username", usernameEditText.getText().toString());
+                    intent.putExtra("autoLogin", "0");
+                    intent.setClass(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
-                }else{
+                } else {
                     Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
+
             }
         });
+
+        List<User> userList = DataSupport.where("username = ?", "admin").find(User.class);
+        if (userList.get(0).getAutoLogin().equals("1")){
+            Intent intent = new Intent();
+            intent.putExtra("username", "admin");
+            intent.putExtra("autoLogin", "1");
+            intent.setClass(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void updateUiWithUser(LoggedInUserView model) {
